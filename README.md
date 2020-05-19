@@ -5,3 +5,24 @@
 ## 📚 Tutorial
 
 This repository contains the completed Xcode project following the [How to Build a Chat App with SwiftUI: Part 1](https://getstream.io/blog/chat-app-swiftui-part1/) tutorial. You should read it before trying to run this project as it contains it may contain useful information not present in this README.
+
+## ⚙️ Setup
+
+### Configuration
+
+You should place your [Stream Chat](https://getstream.io/chat) credentials in [`AppDelegate.swift`](SwiftUIChat/SwiftUIChat/AppDelegate.swift#L19).
+
+### Dependencies
+
+Dependencies are included, but if you need to make any changes, use CocoaPods in the SwiftUIChat folder:
+
+```bash
+$ pod install --repo-update
+```
+
+## 🔗 Helpful Links
+
+- [Build an iMessage Clone with The Stream Chat iOS SDK](https://getstream.io/blog/build-imessage-clone/)
+- [Stream Chat iOS Tutorial](https://getstream.io/tutorials/ios-chat/)
+- [Stream Chat iOS Repo](https://github.com/GetStream/stream-chat-swift)
+- [Stream Chat iOS Docs](http://getstream.io/chat/docs?language=swift)
