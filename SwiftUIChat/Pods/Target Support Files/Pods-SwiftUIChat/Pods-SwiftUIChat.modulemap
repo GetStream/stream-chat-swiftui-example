@@ -1,0 +1,6 @@
+framework module Pods_SwiftUIChat {
+  umbrella header "Pods-SwiftUIChat-umbrella.h"
+
+  export *
+  module * { export * }
+}

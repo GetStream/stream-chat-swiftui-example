@@ -1,0 +1,20 @@
+PODS:
+  - Starscream (3.1.1)
+  - StreamChatClient (2.2.0):
+    - Starscream (~> 3.1)
+
+DEPENDENCIES:
+  - StreamChatClient (~> 2.2.0)
+
+SPEC REPOS:
+  trunk:
+    - Starscream
+    - StreamChatClient
+
+SPEC CHECKSUMS:
+  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
+  StreamChatClient: 08913f5239aa3a362513f91d1cd1b520112a9171
+
+PODFILE CHECKSUM: 62d0ef0a4f013afaed7a0ad7796aaa370d906d49
+
+COCOAPODS: 1.9.1
