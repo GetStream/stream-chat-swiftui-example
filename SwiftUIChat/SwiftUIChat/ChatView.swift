@@ -10,7 +10,13 @@ import SwiftUI
 import StreamChatClient
 
 struct ChatView: View {
-    let channel = Client.shared.channel(type: .messaging, id: "general")
+    let id: String
+    let channel: Channel
+    
+    init(id: String) {
+        self.id = id
+        self.channel = Client.shared.channel(type: .messaging, id: id)
+    }
     
     @State
     var text: String = ""
@@ -33,7 +39,7 @@ struct ChatView: View {
                 }
             }.padding()
         }
-        .navigationBarTitle("General")
+        .navigationBarTitle(channel.id)
         .onAppear(perform: onAppear)
     }
     
@@ -67,12 +73,14 @@ struct ChatView: View {
                 break
             }
         }
+        
+        Client.shared.add(users: [Client.shared.user], to: channel, { _ in })
     }
 }
 
 struct ChatView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatView()
+        ChatView(id: "general")
     }
 }
 

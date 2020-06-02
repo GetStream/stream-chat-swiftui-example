@@ -18,7 +18,7 @@ struct LoginView: View {
     var body: some View {
         VStack {
             TextField("Type username", text: $username).padding()
-            NavigationLink(destination: ChatView(), tag: true, selection: $success) {
+            NavigationLink(destination: ChannelsView(), tag: true, selection: $success) {
                 EmptyView()
             }
             Button(action: logIn) {
