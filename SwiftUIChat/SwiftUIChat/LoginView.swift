@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import StreamChatClient
+import StreamChat
 
 struct LoginView: View {
     @State
@@ -30,11 +30,15 @@ struct LoginView: View {
     }
     
     func logIn() {
-        Client.shared.set(user: User(id: username), token: .development) { result in
-            switch result {
-            case .success:
+        /// 1: Set the chat client's token provider
+        ChatClient.shared.tokenProvider = .development(userId: username)
+        
+        /// 2: Reload the current user
+        ChatClient.shared.currentUserController().reloadUserIfNeeded { error in
+            switch error {
+            case .none:
                 self.success = true
-            case .failure:
+            case .some:
                 self.success = false
             }
         }
