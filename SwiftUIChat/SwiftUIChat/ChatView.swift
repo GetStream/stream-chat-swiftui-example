@@ -7,19 +7,22 @@
 //
 
 import SwiftUI
-import StreamChatClient
+import StreamChat
 
 struct ChatView: View {
-    let channel = Client.shared.channel(type: .messaging, id: "general")
+    @StateObject var channel = ChatClient.shared.channelController(
+        for: ChannelId(
+            type: .messaging,
+            id: "general"
+        )
+    ).observableObject
     
     @State
     var text: String = ""
-    @State
-    var messages: [Message] = []
     
     var body: some View {
         VStack {
-            List(messages.reversed(), id: \.self) {
+            List(channel.messages, id: \.self) {
                 MessageView(message: $0)
                     .scaleEffect(x: 1, y: -1, anchor: .center)
             }
@@ -34,39 +37,22 @@ struct ChatView: View {
             }.padding()
         }
         .navigationBarTitle("General")
-        .onAppear(perform: onAppear)
+        .onAppear(perform: { self.channel.controller.synchronize { error in
+            print(error)
+        } })
     }
     
     func send() {
-        channel.send(message: .init(text: text)) {
+        channel.controller.createNewMessage(text: text) {
             switch $0 {
             case .success(let response):
                 print(response)
-                self.text = ""
             case .failure(let error):
                 print(error)
             }
         }
-    }
-    
-    func onAppear() {
-        channel.watch(options: [.all]) {
-            switch $0 {
-            case .success(let response):
-                self.messages += response.messages
-            case .failure(let error):
-                break
-            }
-        }
         
-        channel.subscribe(forEvents: [.messageNew]) {
-            switch $0 {
-            case .messageNew(let message, _, _, _):
-                self.messages += [message]
-            default:
-                break
-            }
-        }
+        self.text = ""
     }
 }
 

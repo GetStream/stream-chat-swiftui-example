@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import StreamChatClient
+import StreamChat
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,8 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        Client.configureShared(.init(apiKey: "74e5enp33qj2", logOptions: .info))
-        UITableView.appearance().separatorStyle = .none
+        /// 1: Create a `ChatClientConfig` with the API key.
+        let config = ChatClientConfig(apiKeyString: "kvgjrn7nmuuj")
+
+        /// 2: Set the shared `ChatClient` instance with the config and a temporary token provider.
+        ChatClient.shared = ChatClient(config: config, tokenProvider: .anonymous)
+        
         return true
     }
 

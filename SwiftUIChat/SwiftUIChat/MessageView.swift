@@ -7,14 +7,13 @@
 //
 
 import SwiftUI
-import StreamChatClient
+import StreamChat
 
 struct MessageView: View {
-    @State
-    var message: Message
+    let message: ChatMessage
     
     var background: some View {
-        if (message.user.isCurrent) {
+        if (message.isSentByCurrentUser) {
             return Color.blue.opacity(0.25)
         } else {
             return Color.gray.opacity(0.25)
@@ -22,16 +21,16 @@ struct MessageView: View {
     }
     
     var title: some View {
-        if message.user.isCurrent {
+        if message.isSentByCurrentUser {
             return Text("")
         } else {
-            return Text(message.user.id).font(.footnote)
+            return Text(message.author.id).font(.footnote)
         }
     }
     
     var body: some View {
         HStack {
-            if message.user.isCurrent { Spacer() }
+            if message.isSentByCurrentUser { Spacer() }
             VStack(alignment: .leading) {
                 title
                 Text(message.text)
@@ -39,7 +38,7 @@ struct MessageView: View {
                 .background(background)
                 .cornerRadius(24)
             }
-            if !message.user.isCurrent { Spacer() }
+            if !message.isSentByCurrentUser { Spacer() }
         }.frame(maxWidth: .infinity)
     }
 }

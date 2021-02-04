@@ -1,2 +1,2 @@
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework
-${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StreamChatClient.framework
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StreamChat.framework
