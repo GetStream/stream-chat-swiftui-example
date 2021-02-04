@@ -180,7 +180,7 @@ This application makes use of the following third party libraries:
       incurred by, or claims asserted against, such Contributor by reason
       of your accepting any such warranty or additional liability.
 
-## StreamChatClient
+## StreamChat
 
 SOURCE CODE LICENSE AGREEMENT
 

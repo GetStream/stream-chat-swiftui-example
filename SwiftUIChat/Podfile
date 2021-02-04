@@ -6,5 +6,5 @@ target 'SwiftUIChat' do
   use_frameworks!
 
   # Pods for SwiftUIChat
-  pod 'StreamChatClient', '~> 2.2.0'
+  pod 'StreamChat', :git => 'https://github.com/getstream/stream-chat-swift', :branch => 'main'
 end

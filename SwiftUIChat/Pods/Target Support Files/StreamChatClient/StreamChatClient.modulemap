@@ -1,6 +1,0 @@
-framework module StreamChatClient {
-  umbrella header "StreamChatClient-umbrella.h"
-
-  export *
-  module * { export * }
-}

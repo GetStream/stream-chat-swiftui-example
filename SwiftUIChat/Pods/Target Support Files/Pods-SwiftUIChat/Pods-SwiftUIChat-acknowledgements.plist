@@ -422,7 +422,7 @@ submitted by Customer to Stream.io will have no effect.
 			<key>License</key>
 			<string>BSD-3</string>
 			<key>Title</key>
-			<string>StreamChatClient</string>
+			<string>StreamChat</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>

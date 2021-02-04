@@ -18,7 +18,7 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
-		<key>StreamChatClient.xcscheme</key>
+		<key>StreamChat.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
