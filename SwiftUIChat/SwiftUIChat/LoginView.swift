@@ -42,8 +42,6 @@ struct LoginView: View {
                 self.success = false
             }
         }
-        
-        self.success = true
     }
 }
 

@@ -37,9 +37,7 @@ struct ChatView: View {
             }.padding()
         }
         .navigationBarTitle("General")
-        .onAppear(perform: { self.channel.controller.synchronize { error in
-            print(error)
-        } })
+        .onAppear(perform: { self.channel.controller.synchronize() })
     }
     
     func send() {

@@ -67,8 +67,8 @@
             filePath = "SwiftUIChat/ChatView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "send()"
             landmarkType = "7">
          </BreakpointContent>
@@ -83,8 +83,8 @@
             filePath = "SwiftUIChat/ChatView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
             landmarkName = "send()"
             landmarkType = "7">
          </BreakpointContent>

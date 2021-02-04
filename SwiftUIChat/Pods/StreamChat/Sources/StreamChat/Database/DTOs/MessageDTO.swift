@@ -226,16 +226,16 @@ extension MessageDTO {
 }
 
 extension NSManagedObjectContext: MessageDatabaseSession {
-    func createNewMessage<ExtraData: ExtraDataTypes>(
+    func createNewMessage<ExtraData: MessageExtraData>(
         in cid: ChannelId,
         text: String,
         command: String?,
         arguments: String?,
         parentMessageId: MessageId?,
-        attachments: [_ChatMessageAttachment<ExtraData>.Seed],
+        attachments: [ChatMessageAttachmentSeed],
         showReplyInChannel: Bool,
         quotedMessageId: MessageId?,
-        extraData: ExtraData.Message
+        extraData: ExtraData
     ) throws -> MessageDTO {
         guard let currentUserDTO = currentUser() else {
             throw ClientError.CurrentUserDoesNotExist()
@@ -441,26 +441,37 @@ private extension _ChatMessage {
         mentionedUsers = Set(dto.mentionedUsers.map { $0.asModel() })
         threadParticipants = Set(dto.threadParticipants.map(\.id))
 
-        latestReplies = MessageDTO
-            .loadReplies(for: dto.id, limit: 25, context: context)
-            .map(_ChatMessage.init)
-        
+        if dto.replies.isEmpty {
+            latestReplies = []
+        } else {
+            latestReplies = MessageDTO
+                .loadReplies(for: dto.id, limit: 5, context: context)
+                .map(_ChatMessage.init)
+        }
         localState = dto.localMessageState
         
         isFlaggedByCurrentUser = dto.flaggedBy != nil
-        
-        latestReactions = Set(
-            MessageReactionDTO
-                .loadLatestReactions(for: dto.id, limit: 10, context: context)
-                .map { $0.asModel() }
-        )
-        
-        if let currentUser = context.currentUser() {
-            currentUserReactions = Set(
+
+        if dto.reactions.isEmpty {
+            latestReactions = []
+        } else {
+            latestReactions = Set(
                 MessageReactionDTO
-                    .loadReactions(for: dto.id, authoredBy: currentUser.user.id, context: context)
+                    .loadLatestReactions(for: dto.id, limit: 5, context: context)
                     .map { $0.asModel() }
             )
+        }
+        
+        if let currentUser = context.currentUser() {
+            if dto.reactions.isEmpty {
+                currentUserReactions = []
+            } else {
+                currentUserReactions = Set(
+                    MessageReactionDTO
+                        .loadReactions(for: dto.id, authoredBy: currentUser.user.id, context: context)
+                        .map { $0.asModel() }
+                )
+            }
             isSentByCurrentUser = currentUser.user.id == dto.user.id
         } else {
             currentUserReactions = []
@@ -469,7 +480,11 @@ private extension _ChatMessage {
         
         attachments = dto.attachments
             .map { $0.asModel() }
-            .sorted { $0.id.index < $1.id.index }
+            .sorted {
+                let index1 = $0.id?.index ?? Int.max
+                let index2 = $1.id?.index ?? Int.max
+                return index1 < index2
+            }
         
         quotedMessageId = dto.quotedMessage.map(\.id)
     }
