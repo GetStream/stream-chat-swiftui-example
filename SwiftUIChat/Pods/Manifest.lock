@@ -4,20 +4,17 @@ PODS:
     - Starscream (~> 4.0)
 
 DEPENDENCIES:
-  - StreamChat (from `../../stream-chat-swift`)
+  - StreamChat (~> 3.0.1)
 
 SPEC REPOS:
   trunk:
     - Starscream
-
-EXTERNAL SOURCES:
-  StreamChat:
-    :path: "../../stream-chat-swift"
+    - StreamChat
 
 SPEC CHECKSUMS:
   Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
   StreamChat: 69a40a8f0f7a65770b9c1e0e0e63185c43acd31d
 
-PODFILE CHECKSUM: 6612b3ce90935e7fb03d15010497c641cd70c9c8
+PODFILE CHECKSUM: 1fa46305f585d54f03131d6a6e4f604150d2788e
 
 COCOAPODS: 1.10.1
