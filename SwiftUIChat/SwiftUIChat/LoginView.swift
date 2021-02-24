@@ -18,7 +18,7 @@ struct LoginView: View {
     var body: some View {
         VStack {
             TextField("Type username", text: $username).padding()
-            NavigationLink(destination: ChannelsView(), tag: true, selection: $success) {
+            NavigationLink(destination: channelsView(), tag: true, selection: $success) {
                 EmptyView()
             }
             Button(action: logIn) {
@@ -42,6 +42,10 @@ struct LoginView: View {
                 self.success = false
             }
         }
+    }
+    
+    func channelsView() -> ChannelsView {
+        return ChannelsView()
     }
 }
 

@@ -40,7 +40,7 @@ extension MessagePayload {
 }
 
 /// An object describing the incoming message JSON payload.
-class MessagePayload<ExtraData: ExtraDataTypes>: Decodable, ChangeHashable {
+class MessagePayload<ExtraData: ExtraDataTypes>: Decodable {
     let id: String
     let type: MessageType
     let user: UserPayload<ExtraData.User>
@@ -68,35 +68,6 @@ class MessagePayload<ExtraData: ExtraDataTypes>: Decodable, ChangeHashable {
     /// make an extra call do get channel details.
     let channel: ChannelDetailPayload<ExtraData>?
     
-    var hasher: ChangeHasher {
-        MessageHasher(
-            id: id,
-            type: type.rawValue,
-            userChangeHash: user.changeHash,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            deletedAt: deletedAt,
-            text: text,
-            command: command,
-            args: args,
-            parentId: parentId,
-            showReplyInChannel: showReplyInChannel,
-            quotedMessageChangeHash: quotedMessage?.changeHash,
-            mentionedUserChangeHashes: mentionedUsers.map(\.changeHash),
-            threadParticipantChangeHashes: threadParticipants.map(\.changeHash),
-            replyCount: replyCount,
-            extraData: (try? JSONEncoder.default.encode(extraData)) ?? .init(),
-            reactionScores: reactionScores.mapKeys { $0.rawValue },
-            isSilent: isSilent
-        )
-    }
-    
-    // This needs to be explicit so we can override it in
-    // `MessageDTO_Tests.test_DTO_skipsUnnecessarySave`
-    var changeHash: Int {
-        hasher.changeHash
-    }
-    
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: MessagePayloadsCodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
@@ -121,7 +92,9 @@ class MessagePayload<ExtraData: ExtraDataTypes>: Decodable, ChangeHashable {
         reactionScores = try container
             .decodeIfPresent([String: Int].self, forKey: .reactionScores)?
             .mapKeys { MessageReactionType(rawValue: $0) } ?? [:]
-        attachments = try container.decode([AttachmentPayload].self, forKey: .attachments)
+        // Because attachment objects can be malformed, we wrap those into `OptionalDecodable`
+        // and if decoding of those fail, it assignes `nil` instead of throwing whole MessagePayload away.
+        attachments = try container.decode([OptionalDecodable<AttachmentPayload>].self, forKey: .attachments).compactMap(\.base)
         extraData = try ExtraData.Message(from: decoder)
         
         // Some endpoints return also channel payload data for convenience

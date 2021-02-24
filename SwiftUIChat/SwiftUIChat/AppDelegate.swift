@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         /// 1: Create a `ChatClientConfig` with the API key.
-        let config = ChatClientConfig(apiKeyString: "kvgjrn7nmuuj")
+        let config = ChatClientConfig(apiKeyString: "74e5enp33qj2")
 
         /// 2: Set the shared `ChatClient` instance with the config and a temporary token provider.
         ChatClient.shared = ChatClient(config: config, tokenProvider: .anonymous)

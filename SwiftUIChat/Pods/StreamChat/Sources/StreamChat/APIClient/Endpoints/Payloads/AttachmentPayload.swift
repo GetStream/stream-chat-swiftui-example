@@ -25,9 +25,9 @@ struct AttachmentPayload: Decodable {
         let type: AttachmentType
         let itWasLinkOriginally = container.contains(.ogURL)
         if itWasLinkOriginally {
-            type = .link
+            type = .link(try? container.decode(String.self, forKey: .type))
         } else {
-            type = AttachmentType(rawValue: try? container.decode(String.self, forKey: .type))
+            type = AttachmentType(rawValue: try container.decode(String.self, forKey: .type))
         }
         self.type = type
         

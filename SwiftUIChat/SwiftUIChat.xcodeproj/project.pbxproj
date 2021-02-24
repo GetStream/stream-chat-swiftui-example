@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8061B1F225CC78BB00BEDB0A /* ChatClient+Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8061B1F125CC78BB00BEDB0A /* ChatClient+Shared.swift */; };
 		808240CC2484480500E01138 /* ChannelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808240CB2484480500E01138 /* ChannelsView.swift */; };
 		8083A3C82473122100AF61C1 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8083A3C72473122100AF61C1 /* MessageView.swift */; };
 		80B0FC5E246A1ABE007AB50F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B0FC5D246A1ABE007AB50F /* AppDelegate.swift */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		48AF3AE2991263566A7778D5 /* Pods-SwiftUIChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIChat.debug.xcconfig"; path = "Target Support Files/Pods-SwiftUIChat/Pods-SwiftUIChat.debug.xcconfig"; sourceTree = "<group>"; };
 		80102B69246B353800340BC1 /* SwiftUIChat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SwiftUIChat.entitlements; sourceTree = "<group>"; };
+		8061B1F125CC78BB00BEDB0A /* ChatClient+Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatClient+Shared.swift"; sourceTree = "<group>"; };
 		808240CB2484480500E01138 /* ChannelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsView.swift; sourceTree = "<group>"; };
 		8083A3C72473122100AF61C1 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		80B0FC5A246A1ABE007AB50F /* SwiftUIChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,6 +76,7 @@
 			children = (
 				80102B69246B353800340BC1 /* SwiftUIChat.entitlements */,
 				80B0FC5D246A1ABE007AB50F /* AppDelegate.swift */,
+				8061B1F125CC78BB00BEDB0A /* ChatClient+Shared.swift */,
 				80B0FC5F246A1ABE007AB50F /* SceneDelegate.swift */,
 				80B0FC61246A1ABE007AB50F /* ContentView.swift */,
 				80B0FC71246A1F1E007AB50F /* LoginView.swift */,
@@ -231,6 +234,7 @@
 				8083A3C82473122100AF61C1 /* MessageView.swift in Sources */,
 				808240CC2484480500E01138 /* ChannelsView.swift in Sources */,
 				80B0FC5E246A1ABE007AB50F /* AppDelegate.swift in Sources */,
+				8061B1F225CC78BB00BEDB0A /* ChatClient+Shared.swift in Sources */,
 				80B0FC60246A1ABE007AB50F /* SceneDelegate.swift in Sources */,
 				80B0FC72246A1F1E007AB50F /* LoginView.swift in Sources */,
 				80F08027246A2A3A000B1568 /* ChatView.swift in Sources */,
@@ -302,7 +306,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -356,7 +360,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

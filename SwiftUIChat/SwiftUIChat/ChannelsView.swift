@@ -7,11 +7,11 @@
 //
 
 import SwiftUI
-import StreamChatClient
+import StreamChat
 
 struct ChannelsView: View {
     @State
-    var channels = [String]()
+    var channels: [ChatChannel] = []
     @State
     var createTrigger = false
     @State
@@ -21,9 +21,9 @@ struct ChannelsView: View {
         VStack {
             createChannelView
             searchView
-            List(channels, id: \.self) { channelId in
-                NavigationLink(destination: ChatView(id: channelId)) {
-                    Text(channelId)
+            List(channels, id: \.self) { channel in
+                NavigationLink(destination: chatView(id: channel.cid)) {
+                    Text(channel.name ?? channel.cid.id)
                 }
             }.onAppear(perform: loadChannels)
         }
@@ -35,31 +35,40 @@ struct ChannelsView: View {
         .navigationBarTitle("Channels")
     }
     
+    func chatView(id: ChannelId) -> ChatView {
+        return ChatView(
+            channel: ChatClient.shared.channelController(
+                for: id
+            ).observableObject
+        )
+    }
+    
     func loadChannels() {
-        let filter: Filter
+        let filter: Filter<ChannelListFilterScope>
         
         if searchTerm.isEmpty {
-            filter = .and([.in("members", [Client.shared.user.id]),
+            filter = .and([.in("members", values: [ChatClient.shared.currentUserId!]),
                            .equal("type", to: "messaging")])
         } else {
             filter = .and([.equal("type", to: "messaging")])
         }
-
-        Client.shared.queryChannels(query: ChannelsQuery(filter: filter)) { 
-            switch $0 {
-            case .success(let response):
-                self.channels = response
-                    .map { $0.channel.id }
-                    .filter { 
-                        if self.searchTerm.isEmpty { 
-                            return true 
-                        } else { 
-                            return $0.contains(self.searchTerm)
-                        } 
-                    }
-            case .failure(let error):
+        
+        let controller = ChatClient.shared.channelListController(query: .init(filter: filter))
+        
+        controller.synchronize { error in
+            if let error = error {
                 print(error)
+                return
             }
+            
+            self.channels = controller.channels
+                .filter {
+                    if self.searchTerm.isEmpty {
+                        return true
+                    } else {
+                        return $0.cid.id.contains(self.searchTerm)
+                    }
+                }
         }
     }
     
@@ -72,7 +81,7 @@ struct ChannelsView: View {
         if(createTrigger) {
             return AnyView(HStack {
                 TextField("Channel name", text: $createChannelName)
-                Button(action: self.createChannel) {
+                Button(action: { try? self.createChannel() }) {
                     Text(self.createChannelName.isEmpty ? "Cancel" : "Submit")
                 }
             }.padding())
@@ -81,16 +90,22 @@ struct ChannelsView: View {
         return AnyView(EmptyView()) // TODO: Add Channel
     }
     
-    func createChannel() {
+    func createChannel() throws {
         self.createTrigger = false
         if !self.createChannelName.isEmpty {
-            Client.shared.channel(type: .messaging, id: createChannelName).create {
-                switch $0 {
-                case .success(let response):
-                    self.channels = [response.channel.id] + self.channels
-                    Client.shared.add(users: [Client.shared.user], to: response.channel, { _ in })
-                case .failure(let error):
+            let cid = ChannelId(type: .messaging, id: createChannelName)
+            let controller = try ChatClient.shared.channelController(
+                createChannelWithId: cid,
+                name: nil,
+                imageURL: nil,
+                isCurrentUserMember: true,
+                extraData: .defaultValue
+            )
+            controller.synchronize { error in
+                if let error = error {
                     print(error)
+                } else if let channel = controller.channel {
+                    channels.append(channel)
                 }
             }
         }
@@ -131,11 +146,5 @@ struct ChannelsView: View {
     func clearPressed() {
         self.searchTerm = ""
         self.loadChannels() 
-    }
-}
-
-struct ChannelsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChannelsView()
     }
 }
